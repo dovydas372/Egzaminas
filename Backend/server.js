@@ -17,7 +17,7 @@ mongoose.connect(process.env.DB_URI).then(() => {
 });
 
 //middleware
-
+app.use(express.json());
 //routes
 app.get("/", (req, res) => {
   res.json({ mssg: "Sveiki!" });
