@@ -13,3 +13,5 @@ const consoleSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+export default mongoose.model("Console", consoleSchema);
