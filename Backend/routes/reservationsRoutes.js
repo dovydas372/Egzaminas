@@ -1,15 +1,16 @@
 import express from "express";
+import * as reservationController from "../controllers/reservationController";
 const router = express.Router();
 
 // Paprasti vartotojai
-router.post("/", (req, res) => {}); // kurti rezervaciją
-router.get("/my-reservations", (req, res) => {}); // peržiūrėti savo rezervacijas
-router.put("/:id", (req, res) => {}); // atnaujinti rezervaciją
-router.delete("/:id", (req, res) => {}); // atšaukti rezervaciją
+router.post("/create", reservationController.createReservation); // kurti rezervaciją
+router.get("/my-reservations", reservationController.getMyReservations); // peržiūrėti savo rezervacijas
+router.put("/:id", reservationController.updateReservation); // atnaujinti rezervaciją
+router.delete("/:id", reservationController.deleteReservation); // atšaukti rezervaciją
 
 // Administratorius
-router.get("/", (req, res) => {}); // peržiūrėti visas rezervacijas
-router.get("/:id", (req, res) => {}); // peržiūrėti konkrečią rezervaciją
-router.patch("/:id/status", (req, res) => {}); // keisti rezervacijos būseną
+router.get("/all", reservationController.getAllReservations); // peržiūrėti visas rezervacijas
+router.get("/:id", reservationController.getReservationById); // peržiūrėti konkrečią rezervaciją
+router.patch("/:id/status", reservationController.changeReservationStatus); // keisti rezervacijos būseną
 
 export default router;
