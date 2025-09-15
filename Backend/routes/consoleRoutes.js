@@ -10,7 +10,7 @@ router.get("/:id", consoleController.getOneConsole); // viena konsolė
 
 // Administratorius
 router.post("/create", consoleController.createConsole); // sukurti konsolę
-router.put("/:id", (req, res) => {}); // redaguoti konsolę
-router.patch("/:id/status", (req, res) => {}); // keisti būseną
+router.put("/:id", consoleController.editConsole); // redaguoti konsolę
+router.patch("/:id/status", consoleController.changeConsoleStatus); // keisti būseną
 
 export default router;

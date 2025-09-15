@@ -40,11 +40,37 @@ export const editConsole = async (req, res) => {
       { new: true }
     );
 
-    if (!updatedConsole) {
+    if (!updateConsole) {
       return res.status(404).json({ error: "Console not found" });
     }
 
     res.json(updateConsole);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+export const changeConsoleStatus = async (req, res) => {
+  try {
+    const { status } = req.body;
+
+    const validStatuses = ["paskelbta", "juodraštis"];
+
+    if (!validStatuses.includes(status)) {
+      return res.status(400).json({ error: "Neteisinga status reikšmė" });
+    }
+
+    const updatedConsole = await Console.findByIdAndUpdate(
+      req.params.id,
+      { status },
+      { new: true }
+    );
+
+    if (!updatedConsole) {
+      return res.status(404).json({ error: "Console not found" });
+    }
+
+    res.json(updatedConsole);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
