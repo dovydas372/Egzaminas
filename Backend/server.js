@@ -4,6 +4,7 @@ import consoleRoutes from "./routes/consoleRoutes.js";
 import reservationRoutes from "./routes/reservationsRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import mongoose from "mongoose";
+import { authMiddleware } from "./middleware/authMiddleware.js";
 dotenv.config();
 
 const app = express();
@@ -18,10 +19,13 @@ mongoose.connect(process.env.DB_URI).then(() => {
 
 //middleware
 app.use(express.json());
+
 //routes
 app.get("/", (req, res) => {
   res.json({ mssg: "Sveiki!" });
 });
 app.use("/api/auth", authRoutes);
+//routes only for users
+app.use(authMiddleware);
 app.use("/api/console", consoleRoutes);
 app.use("/api/reservation", reservationRoutes);

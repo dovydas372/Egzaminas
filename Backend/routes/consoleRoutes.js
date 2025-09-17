@@ -1,6 +1,6 @@
 import express from "express";
-import Console from "../models/console.js";
 import * as consoleController from "../controllers/consoleController.js";
+import { adminMiddleware } from "../middleware/adminMiddleware.js";
 
 const router = express.Router();
 
@@ -9,8 +9,12 @@ router.get("/", consoleController.getAllConsoles); // visos konsolės
 router.get("/:id", consoleController.getOneConsole); // viena konsolė
 
 // Administratorius
-router.post("/create", consoleController.createConsole); // sukurti konsolę
-router.put("/:id", consoleController.editConsole); // redaguoti konsolę
-router.patch("/:id/status", consoleController.changeConsoleStatus); // keisti būseną
+router.post("/create", adminMiddleware, consoleController.createConsole); // sukurti konsolę
+router.put("/:id", adminMiddleware, consoleController.editConsole); // redaguoti konsolę
+router.patch(
+  "/:id/status",
+  adminMiddleware,
+  consoleController.changeConsoleStatus
+); // keisti būseną
 
 export default router;
