@@ -2,9 +2,15 @@ import Reservation from "../models/reservation.js";
 
 export const createReservation = async (req, res) => {
   try {
-    const newReservation = new Reservation(req.body);
-    await newReservation.save();
+    const newReservation = new Reservation({
+      userId: req.user._id, // paimame userį iš tokeno (middleware nustato req.user)
+      consoleId: req.body.consoleId, // gauname konsolės ID iš body
+      dateFrom: req.body.dateFrom, // gauname rezervacijos pradžios datą
+      dateTo: req.body.dateTo, // gauname rezervacijos pabaigos datą
+      status: "laukianti", // default iš modelio, bet galima priskirti ir čia
+    });
 
+    await newReservation.save();
     res.status(201).json(newReservation);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -13,7 +19,7 @@ export const createReservation = async (req, res) => {
 
 export const getMyReservations = async (req, res) => {
   try {
-    const reservations = await Reservation.find({ user: req.user.id }); // auth middleware
+    const reservations = await Reservation.find({ user: req.user._id }); // auth middleware
     res.json(reservations);
   } catch (err) {
     res.status(500).json({ error: err.message });
