@@ -5,7 +5,7 @@ import { adminMiddleware } from "../middleware/adminMiddleware.js";
 const router = express.Router();
 
 // Visi vartotojai
-router.get("/", consoleController.getAllConsoles); // visos konsolės
+router.get("/all", consoleController.getAllConsoles); // visos konsolės
 router.get("/:id", consoleController.getOneConsole); // viena konsolė
 
 // Administratorius

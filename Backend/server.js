@@ -25,7 +25,7 @@ app.get("/", (req, res) => {
 });
 app.use("/api/auth", authRoutes);
 //routes only for users
-app.use(authMiddleware);
+// app.use(authMiddleware);
 app.use("/api/console", consoleRoutes);
 app.use("/api/reservation", reservationRoutes);
 
