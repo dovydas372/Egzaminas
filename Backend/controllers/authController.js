@@ -49,7 +49,7 @@ export const login = async (req, res) => {
       }
     );
 
-    res.json({ message: "Prisijungimas sėkmingas", token });
+    res.json({ message: "Prisijungimas sėkmingas", role: user.role, token });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
