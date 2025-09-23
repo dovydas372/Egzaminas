@@ -2,12 +2,18 @@ import React from "react";
 import { AuthContext } from "../context/authContext.js";
 import { useContext } from "react";
 const Reservations = () => {
+  const { user } = useContext(AuthContext);
   useEffect(() => {
     const fetchReservations = async () => {
       console.log(useContext(AuthContext));
       try {
         const response = await axios.get(
-          `${process.env.REACT_APP_API_URL}/api/reservation/all`
+          `${process.env.REACT_APP_API_URL}/api/reservation/all`,
+          {
+            headers: {
+              Authorization: `Bearer ${user.token}`,
+            },
+          }
         );
         setReservations(response.data);
       } catch (err) {

@@ -13,7 +13,12 @@ export default function Main() {
     const fetchConsoles = async () => {
       try {
         const response = await axios.get(
-          `${process.env.REACT_APP_API_URL}/api/console/all`
+          `${process.env.REACT_APP_API_URL}/api/console/all`,
+          {
+            headers: {
+              Authorization: `Bearer ${user.token}`,
+            },
+          }
         );
         setConsoles(response.data);
       } catch (err) {
