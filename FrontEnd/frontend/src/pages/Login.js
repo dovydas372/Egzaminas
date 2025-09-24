@@ -1,13 +1,16 @@
 import { useState } from "react";
 import { useLogin } from "../hooks/useLogin.js";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
   const { login, isLoading, error } = useLogin();
   const handleLogin = async (e) => {
     e.preventDefault();
     await login(username, password);
+    navigate("/main");
   };
 
   return (

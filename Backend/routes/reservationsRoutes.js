@@ -5,7 +5,8 @@ const router = express.Router();
 
 // Paprasti vartotojai
 router.post("/create", reservationController.createReservation); // kurti rezervaciją
-router.get("/my-reservations", reservationController.getMyReservations); // peržiūrėti savo rezervacijas
+router.get("/my-reservations/", reservationController.getMyReservations); // peržiūrėti savo rezervacijas
+router.get("/byConsole/:id", reservationController.getReservationsByConsoleId); // peržiūrėti savo rezervacijas
 router.put("/:id", reservationController.updateReservation); // atnaujinti rezervaciją
 router.delete("/:id", reservationController.deleteReservation); // atšaukti rezervaciją
 

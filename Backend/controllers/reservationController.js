@@ -3,13 +3,29 @@ import Reservation from "../models/reservation.js";
 export const createReservation = async (req, res) => {
   try {
     const newReservation = new Reservation({
-      userId: req.user._id, // paimame userį iš tokeno (middleware nustato req.user)
-      consoleId: req.body.consoleId, // gauname konsolės ID iš body
-      dateFrom: req.body.dateFrom, // gauname rezervacijos pradžios datą
-      dateTo: req.body.dateTo, // gauname rezervacijos pabaigos datą
-      status: "laukianti", // default iš modelio, bet galima priskirti ir čia
+      userId: req.user._id,
+      consoleId: req.body.consoleId,
+      dateFrom: req.body.dateFrom,
+      dateTo: req.body.dateTo,
+    });
+    const conflict = await Reservation.findOne({
+      consoleId: req.body.consoleId,
+      status: { $in: ["laukia patvirtinimo", "patvirtinta"] },
+      $or: [
+        { dateFrom: { $lte: req.body.dateTo, $gte: req.body.dateFrom } },
+        { dateTo: { $lte: req.body.dateTo, $gte: req.body.dateFrom } },
+        {
+          dateFrom: { $lte: req.body.dateFrom },
+          dateTo: { $gte: req.body.dateTo },
+        },
+      ],
     });
 
+    if (conflict) {
+      return res
+        .status(409)
+        .json({ error: "Konsolė jau rezervuota šiuo laikotarpiu" });
+    }
     await newReservation.save();
     res.status(201).json(newReservation);
   } catch (err) {
@@ -19,7 +35,9 @@ export const createReservation = async (req, res) => {
 
 export const getMyReservations = async (req, res) => {
   try {
-    const reservations = await Reservation.find({ user: req.user._id }); // auth middleware
+    const reservations = await Reservation.find({
+      userId: req.user._id,
+    }).populate("consoleId", "title");
     res.json(reservations);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -62,7 +80,9 @@ export const deleteReservation = async (req, res) => {
 
 export const getAllReservations = async (req, res) => {
   try {
-    const reservations = await Reservation.find();
+    const reservations = await Reservation.find()
+      .populate("consoleId", "title")
+      .populate("userId", "username");
     res.json(reservations);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -96,6 +116,22 @@ export const changeReservationStatus = async (req, res) => {
     }
 
     res.json(updatedReservation);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+export const getReservationsByConsoleId = async (req, res) => {
+  try {
+    const reservations = await Reservation.find({ consoleId: req.params.id });
+
+    if (!reservations || reservations.length === 0) {
+      return res
+        .status(404)
+        .json({ error: "No reservations found for this console" });
+    }
+
+    res.json(reservations);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

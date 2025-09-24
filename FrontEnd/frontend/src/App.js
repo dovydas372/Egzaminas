@@ -1,22 +1,71 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-// import { useAuthContext } from "./hooks/useAuthContext";
+import { PR } from "./components/PrivateRoute";
 //pages
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Main from "./pages/Main";
 import Navbar from "./components/Navbar";
 import ConsoleDescription from "./pages/ConsoleDescription";
+import MyReservations from "./pages/MyReservations";
+import Reservations from "./pages/Reservations";
+import CreateConsole from "./pages/CreateConsole";
+import EditConsole from "./pages/EditConsole";
 
 function App() {
-  // const { user } = useAuthContext();
   return (
     <Router>
       <Navbar />
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/main" element={<Main />} />
-        <Route path="/console/:id" element={<ConsoleDescription />} />
+        <Route
+          path="/main"
+          element={
+            <PR>
+              <Main />
+            </PR>
+          }
+        />
+        <Route
+          path="/myReservations"
+          element={
+            <PR>
+              <MyReservations />
+            </PR>
+          }
+        />
+        <Route
+          path="/reservations"
+          element={
+            <PR role="admin">
+              <Reservations />
+            </PR>
+          }
+        />
+        <Route
+          path="/console/:id"
+          element={
+            <PR>
+              <ConsoleDescription />
+            </PR>
+          }
+        />
+        <Route
+          path="/createConsole"
+          element={
+            <PR role="admin">
+              <CreateConsole />
+            </PR>
+          }
+        />
+        <Route
+          path="/createConsole/:id/edit"
+          element={
+            <PR role="admin">
+              <EditConsole />
+            </PR>
+          }
+        />
       </Routes>
     </Router>
   );

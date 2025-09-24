@@ -1,14 +1,17 @@
 import { useState } from "react";
 import useSignup from "../hooks/useSignup.js";
+import { useNavigate } from "react-router-dom";
 
 export default function Signup() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
   const { signup, error, isLoading } = useSignup();
 
   const handleSignup = async (e) => {
     e.preventDefault();
     await signup(username, password);
+    navigate("/main");
   };
 
   return (

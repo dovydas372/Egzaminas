@@ -30,27 +30,32 @@ export default function Main() {
   }, []);
 
   return (
-    <div className="p-4">
+    <div className="max-w-5xl md:mx-auto ml-3 gap-2">
       <h1 className="text-xl font-bold mb-4">Visos konsolės</h1>
-
-      <ul>
+      <div className="grid grid-cols-1 md:grid-cols-3  gap-1">
         {consoles.map((c) => (
-          <li
+          <div
             onClick={() => navigate(`/console/${c._id}`)}
             key={c._id}
-            className="border p-2 mb-2 rounded"
+            className="border p-4 size-fit rounded shadow hover:shadow-lg transition duration-200 max-w-80 max-h-80 h-80"
           >
-            {c.title} – {c.description}
-            <div>
-              <img
-                src={c.image}
-                alt={c.title}
-                className="w-32 h-32 object-cover rounded"
-              />
+            <div className="flex items-center justify-between  p-4 ">
+              <div className="flex-1">
+                <h2 className="text-lg font-bold">{c.title}</h2>
+                <p className="text-gray-600">{c.description}</p>
+              </div>
+
+              <div>
+                <img
+                  src={c.image}
+                  alt={c.title}
+                  className="w-32 h-32 object-cover rounded"
+                />
+              </div>
             </div>
-          </li>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }
