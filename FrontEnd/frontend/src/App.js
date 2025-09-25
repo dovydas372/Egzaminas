@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { PR } from "./components/PrivateRoute";
 //pages
 import Login from "./pages/Login";
@@ -16,6 +16,7 @@ function App() {
     <Router>
       <Navbar />
       <Routes>
+    <Route path="*" element={<Navigate to="/main" replace />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route
