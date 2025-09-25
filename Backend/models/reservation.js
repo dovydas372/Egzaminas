@@ -16,8 +16,8 @@ const reservationSchema = new mongoose.Schema(
     dateTo: { type: Date, required: true }, // rezervacijos pabaiga
     status: {
       type: String,
-      enum: ["laukianti", "patvirtinta", "atmesta", "vykdoma"],
-      default: "laukianti",
+      enum: ["laukia patvirtinimo", "patvirtinta", "atmesta"],
+      default: "laukia patvirtinimo",
     },
   },
   { timestamps: true }

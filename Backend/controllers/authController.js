@@ -2,7 +2,7 @@ import User from "../models/User.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-export const register = async (req, res) => {
+export const signup = async (req, res) => {
   try {
     const { username, password } = req.body;
 
@@ -21,7 +21,18 @@ export const register = async (req, res) => {
     });
 
     await newUser.save();
-    res.status(201).json({ message: "Registracija sėkminga" });
+
+    const token = jwt.sign(
+      { id: newUser._id, role: newUser.role },
+      process.env.JWT_SECRET,
+      { expiresIn: "1d" }
+    );
+
+    res.status(201).json({
+      message: "Registracija sėkminga",
+      role: newUser.role,
+      token,
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -49,15 +60,7 @@ export const login = async (req, res) => {
       }
     );
 
-    res.json({ message: "Prisijungimas sėkmingas", token });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-export const logout = async (req, res) => {
-  try {
-    res.json({ message: "Atsijungimas sėkmingas" });
+    res.json({ message: "Prisijungimas sėkmingas", role: user.role, token });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

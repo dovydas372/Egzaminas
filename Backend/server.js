@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import dotenv from "dotenv";
 import consoleRoutes from "./routes/consoleRoutes.js";
 import reservationRoutes from "./routes/reservationsRoutes.js";
@@ -8,14 +9,12 @@ import { authMiddleware } from "./middleware/authMiddleware.js";
 dotenv.config();
 
 const app = express();
-
-//connect to DB
-mongoose.connect(process.env.DB_URI).then(() => {
-  //Listening on port
-  app.listen(process.env.PORT, () => {
-    console.log("ok, server runing");
-  });
-});
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
 
 //middleware
 app.use(express.json());
@@ -29,3 +28,11 @@ app.use("/api/auth", authRoutes);
 app.use(authMiddleware);
 app.use("/api/console", consoleRoutes);
 app.use("/api/reservation", reservationRoutes);
+
+//connect to DB
+mongoose.connect(process.env.DB_URI).then(() => {
+  //Listening on port
+  app.listen(process.env.PORT, () => {
+    console.log("ok, server runing on port: " + process.env.PORT);
+  });
+});
