@@ -9,7 +9,6 @@
 | Konsolių peržiūra | Visi             | Matyti konsolių sąrašą ir informaciją        |
 | Rezervacijos      | Vartotojas       | Kurti rezervaciją                            |
 | Rezervacijos      | Vartotojas       | Peržiūrėti ir atšaukti savo rezervacijas     |
-| Rezervacijos      | Vartotojas       | Redaguoti ir atnaujinti savo rezervacija     |
 | Rezervacijos      | Administratorius | Peržiūrėti visas rezervacijas                |
 | Rezervacijos      | Administratorius | Patvirtinti / atmesti rezervacijas           |
 | Konsolių valdymas | Administratorius | Pridėti, redaguoti arba keisti konsolės info |
@@ -26,13 +25,12 @@ Funkciniai reikalavimai:
 - **Konsolių peržiūra**
 
   - Visi vartotojai mato konsolių sąrašą
-  - Galima peržiūrėti konsolės informaciją: tipas, aprašymas, kaina, laisvos datos
+  - Galima peržiūrėti konsolės informaciją: tipas, aprašymas, užimtos datos
 
 - **Rezervacijos (vartotojas)**
 
   - Kurti naują rezervaciją
   - Peržiūrėti savo rezervacijas
-  - Atnaujinti savo rezervacijas
   - Atšaukti rezervaciją
 
 - **Rezervacijos (administratorius)**
@@ -44,7 +42,7 @@ Funkciniai reikalavimai:
 
   - Pridėti naujas konsoles
   - Redaguoti konsolių informaciją
-  - Keisti konsolių būseną („aktyvi“, „neaktyvi“) (jei būtų sugedusi)
+
 
 - **Responsyvus dizainas**
 
